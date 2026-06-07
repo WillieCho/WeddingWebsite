@@ -101,10 +101,12 @@
         </div>
     </nav>
 
-    <!-- 封面區 -->
-    <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('https://i.postimg.cc/nzMXs3H8/LINE-ALBUM-er-xiu-260607-1.jpg');"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-black/35"></div>
+    <!-- 封面區：完美比例縮放 -->
+    <section class="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden">
+        <!-- 背景圖：使用 bg-cover + bg-center，100% 寬高自適應縮放，並使用 will-change 提高移動端滾動效能 -->
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full" style="background-image: url('https://i.postimg.cc/nzMXs3H8/LINE-ALBUM-er-xiu-260607-1.jpg'); will-change: transform;"></div>
+        <!-- 微調遮罩漸變層，增加亮暗對比度，使文字更加清晰易讀 -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/40"></div>
         
         <div class="relative z-10 text-center text-white px-4 flex flex-col items-center">
             <p class="font-garamond text-xl md:text-2xl tracking-[0.4em] uppercase mb-4 opacity-90">
@@ -115,7 +117,7 @@
                 Willie <span class="text-3xl md:text-4xl font-serifTC align-middle mx-1">&amp;</span> Wendy
             </h1>
             <p class="font-serifTC text-sm md:text-base tracking-[0.3em] font-light mb-12 opacity-95">
-                邀請您參與我們的幸福起點
+                邀請您參與我們的幸福的新篇章
             </p>
             <a href="#about-us" class="w-10 h-10 flex items-center justify-center border border-white/40 rounded-full hover:bg-white/10 hover:border-white transition-all duration-300">
                 <i class="fa-solid fa-chevron-down animate-bounce text-sm"></i>
@@ -480,7 +482,7 @@
                 <label class="block font-serifTC text-xs tracking-wider text-morandi-dark font-semibold mb-2">
                     給新人的祝福與備註 <span class="font-garamond text-xs font-normal text-morandi-sage block sm:inline sm:ml-2">BLESSINGS &amp; REMARKS</span>
                 </label>
-                <textarea id="guest-remarks" rows="4" placeholder="在此留下您想對我們說的話或特殊餐點備註..." class="w-full px-4 py-3 border border-[#8da399]/20 rounded-xl bg-white/60 focus:outline-none focus:ring-1 focus:ring-morandi-gold focus:border-morandi-gold transition duration-300 font-serifTC text-sm text-morandi-dark"></textarea>
+                <textarea id="guest-remarks" rows="4" placeholder="在此留下您想對我們說的話 or 特殊餐點備註..." class="w-full px-4 py-3 border border-[#8da399]/20 rounded-xl bg-white/60 focus:outline-none focus:ring-1 focus:ring-morandi-gold focus:border-morandi-gold transition duration-300 font-serifTC text-sm text-morandi-dark"></textarea>
             </div>
 
             <!-- 靜態隱藏真實表單的 input 欄位，由 JS 在送出當下動態產生 -->
@@ -525,7 +527,7 @@
             entry: {
                 name: 'entry.531121537',         // 姓名 (AAAA)
                 email: 'entry.2030254756',       // 電子信箱 (test@mail.com)
-                attendance: 'entry.566430370',   // 是否出席 ("會，準參加" / "不克參加")
+                attendance: 'entry.566430370',   // 是否出席 ("會，準時參加" / "不克參加")
                 relationship: 'entry.399598091', // 與新人關係 ("男方家人親戚" / "男方同學、好友" 等)
                 attendees: 'entry.629563200',    // 人數 (11)
                 ceremony: 'entry.593748191',     // 是否參加證婚 ("是" / "否" -- 對應原伴侶欄位)
@@ -604,7 +606,7 @@
                 attendeesWrapper.style.display = 'block';
                 relationshipSelect.required = true;
             } else if (attendance === '不克參加') {
-                // 不克參加時，仍需選取與新人的關係（確保 Google 必填通過且 couple 知道是誰），但隱藏人數選項
+                // 不克參加時，仍需選取與新人的關係（確保 Google 必填通過），但隱藏人數選項
                 relationshipWrapper.style.display = 'block';
                 relationshipSelect.required = true;
                 attendeesWrapper.style.display = 'none';
