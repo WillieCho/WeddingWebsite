@@ -47,7 +47,7 @@
             overflow-x: hidden;
         }
 
-        /* 漸變式微光陰影 */
+        /* 漸變式微光陰影卡片 */
         .shimmer-card {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
@@ -101,8 +101,8 @@
         </div>
     </nav>
 
-    <!-- 封面區：完美比例縮放 -->
-    <section class="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden">
+    <!-- 封面區：完美比例縮放 & 標題再次往下移 (pb-12 md:pb-16 讓文字落於更下方) -->
+    <section class="relative h-[100dvh] w-full flex items-end justify-center pb-12 md:pb-16 overflow-hidden">
         <!-- 背景圖：使用 bg-cover + bg-center，100% 寬高自適應縮放，並使用 will-change 提高移動端滾動效能 -->
         <div class="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full" style="background-image: url('https://i.postimg.cc/SsNZtT97/S-303734789.jpg'); will-change: transform;"></div>
         <!-- 微調遮罩漸變層，增加亮暗對比度，使文字更加清晰易讀 -->
@@ -410,7 +410,7 @@
                 </select>
             </div>
 
-            <!-- 智慧動態顯示：與新人的關係 (在選擇出席意願後皆會顯示，確保不克出席者也能填寫，以利後台比對) -->
+            <!-- 智慧動態顯示：與新人的關係 (僅保留大學同學一項，刪除男方與女方大學同學選項) -->
             <div id="wrapper-relationship" style="display: none;" class="transition-all duration-300 ease-in-out">
                 <label class="block font-serifTC text-xs tracking-wider text-morandi-dark font-semibold mb-2">
                     與新人的關係 <span class="font-garamond text-xs font-normal text-morandi-sage block sm:inline sm:ml-2">RELATIONSHIP</span>
@@ -421,10 +421,11 @@
                     <option value="女方家人親戚">女方家人親戚</option>
                     <option value="男方同學、好友">男方同學、好友</option>
                     <option value="女方同學、好友">女方同學、好友</option>
+                    <option value="大學同學">大學同學</option>
                 </select>
             </div>
 
-            <!-- 智慧動態顯示：參加午宴人數 (僅在選擇「會，準參加」時顯示) -->
+            <!-- 智慧動態顯示：參加午宴人數 (僅在選擇「會，準時參加」時顯示) -->
             <div id="wrapper-attendees" style="display: none;" class="transition-all duration-300 ease-in-out">
                 <label class="block font-serifTC text-xs tracking-wider text-morandi-dark font-semibold mb-2">
                     參加午宴人數 <span class="font-garamond text-xs font-normal text-morandi-sage block sm:inline sm:ml-2">ATTENDEES</span>
@@ -452,7 +453,7 @@
                     </select>
                 </div>
 
-                <!-- 飲食需求 -->
+                <!-- 飲食需求 (蛋奶素) -->
                 <div>
                     <label class="block font-serifTC text-xs tracking-wider text-morandi-dark font-semibold mb-2">
                         飲食需求 <span class="font-garamond text-xs font-normal text-morandi-sage block sm:inline sm:ml-2">DIETARY REQUIREMENT</span>
@@ -460,11 +461,11 @@
                     <select id="guest-diet" class="w-full px-4 py-3 border border-[#8da399]/20 rounded-xl bg-white/60 focus:outline-none focus:ring-1 focus:ring-morandi-gold focus:border-morandi-gold transition duration-300 font-serifTC text-sm text-morandi-dark">
                         <option value="葷食">葷食</option>
                         <option value="素食">全素</option>
-                        <option value="奶蛋素">奶蛋素</option>
+                        <option value="蛋奶素">蛋奶素</option>
                     </select>
                 </div>
 
-                <!-- 兒童椅需求 (在網頁上保留親切詳細的選項，但在背後完美轉換為 是 / 否) -->
+                <!-- 兒童椅需求 (背後會自動轉換為是/否) -->
                 <div>
                     <label class="block font-serifTC text-xs tracking-wider text-morandi-dark font-semibold mb-2">
                         是否需要兒童椅 <span class="font-garamond text-xs font-normal text-morandi-sage block sm:inline sm:ml-2">CHILD SEAT</span>
@@ -525,15 +526,15 @@
         const GOOGLE_FORM_CONFIG = {
             formId: '1FAIpQLSfWYACAyTheLcB4qQhSujfWMEw42cmTpPN0IOUKuKVDPev89A', 
             entry: {
-                name: 'entry.531121537',         // 姓名 (AAAA)
-                email: 'entry.2030254756',       // 電子信箱 (test@mail.com)
-                attendance: 'entry.566430370',   // 是否出席 ("會，準時參加" / "不克參加")
-                relationship: 'entry.399598091', // 與新人關係 ("男方家人親戚" / "男方同學、好友" 等)
-                attendees: 'entry.629563200',    // 人數 (11)
-                ceremony: 'entry.593748191',     // 是否參加證婚 ("是" / "否" -- 對應原伴侶欄位)
-                diet: 'entry.1319906423',        // 飲食 ("葷食")
-                childSeat: 'entry.2125321387',   // 兒童椅 ("是" / "否" -- 重要：後台僅支援這兩者)
-                remarks: 'entry.44530722'        // 備註與祝福 (BBBB)
+                name: 'entry.531121537',         // 姓名
+                email: 'entry.2030254756',       // 電子信箱
+                attendance: 'entry.566430370',   // 是否出席
+                relationship: 'entry.399598091', // 與新人關係
+                attendees: 'entry.629563200',    // 人數
+                ceremony: 'entry.593748191',     // 是否參加證婚
+                diet: 'entry.1319906423',        // 飲食
+                childSeat: 'entry.2125321387',   // 兒童椅 ("是" / "否" )
+                remarks: 'entry.44530722'        // 備註與祝福
             }
         };
 
@@ -606,7 +607,7 @@
                 attendeesWrapper.style.display = 'block';
                 relationshipSelect.required = true;
             } else if (attendance === '不克參加') {
-                // 不克參加時，仍需選取與新人的關係（確保 Google 必填通過），但隱藏人數選項
+                // 不克參加時，仍需選取與新人的關係，但隱藏人數與飲食詳細選項
                 relationshipWrapper.style.display = 'block';
                 relationshipSelect.required = true;
                 attendeesWrapper.style.display = 'none';
@@ -672,7 +673,7 @@
 
                 if (rawChildSeatVal !== '不需要') {
                     childSeatFinalVal = '是';
-                    // 將實際張數需求（如：需要 1 張）附加至備註最前面
+                    // 將實際張數需求附加至備註最前面
                     remarksVal = `【兒童椅需求：${rawChildSeatVal}】\n` + remarksVal;
                 }
 
@@ -687,16 +688,15 @@
                     if (parseInt(attendeesVal) > 0) {
                         createHiddenInput(GOOGLE_FORM_CONFIG.entry.ceremony, ceremonyVal);
                         createHiddenInput(GOOGLE_FORM_CONFIG.entry.diet, dietVal);
-                        createHiddenInput(GOOGLE_FORM_CONFIG.entry.childSeat, childSeatFinalVal); // 這裡傳送的是「是」或「否」
+                        createHiddenInput(GOOGLE_FORM_CONFIG.entry.childSeat, childSeatFinalVal);
                     }
                 } else {
-                    // 不克參加時，人數、證婚、飲食與兒童椅皆傳空字串 (不傳 0)，避免 Google 後台下拉單選值驗證失敗，
-                    // 這樣既能順利送出，也能在 Google Sheet 中保持乾淨的空值
+                    // 不克參加時，人數、證婚、飲食與兒童椅皆傳空字串 (不傳 0)，避免 Google 後台下拉單選值驗證失敗
                     createHiddenInput(GOOGLE_FORM_CONFIG.entry.attendees, '');
                 }
                 createHiddenInput(GOOGLE_FORM_CONFIG.entry.remarks, remarksVal);
 
-                // 5. 變更提交狀態並將按鈕設為「傳送中」，優化視覺體驗並防止重複點擊
+                // 5. 變更提交狀態並將按鈕設為「傳送中」
                 submitted = true;
                 const submitBtn = formEl.querySelector('button[type="submit"]');
                 if (submitBtn) {
