@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant-TW" class="scroll-smooth">
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,6 +88,14 @@
     </style>
 </head>
 <body class="antialiased">
+
+    <script>
+        // 搶在瀏覽器渲染前阻斷自動滾動記憶
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+    </script>
 
     <!-- 導航列 -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-[#f9f6f0]/70 backdrop-blur-md border-b border-[#8da399]/15">
@@ -380,7 +388,7 @@
         <!-- 物理上存在、但寬高皆為 0 且隱藏的 Iframe，確保 100% 觸發 load 事件 -->
         <iframe name="hidden_iframe" id="hidden_iframe" class="absolute w-0 h-0 opacity-0 pointer-events-none"></iframe>
 
-        <!-- 實體表單 (各輸入框初始維持空白、乾淨無 Dummy 預設字) -->
+        <!-- 實體表單 (各輸入框初始維持空白、乾淨無 Dummy 預設字，加入 autocomplete="off" 防止行動裝置強制定焦) -->
         <form id="wedding-form" method="POST" target="hidden_iframe" class="shimmer-card rounded-3xl p-8 md:p-12 space-y-6 border border-white/90">
             <!-- 姓名 -->
             <div>
@@ -410,7 +418,7 @@
                 </select>
             </div>
 
-            <!-- 智慧動態顯示：與新人的關係 (僅保留大學同學一項，刪除男方與女方大學同學選項) -->
+            <!-- 智慧動態顯示：與新人的關係 (大學同學) -->
             <div id="wrapper-relationship" style="display: none;" class="transition-all duration-300 ease-in-out">
                 <label class="block font-serifTC text-xs tracking-wider text-morandi-dark font-semibold mb-2">
                     與新人的關係 <span class="font-garamond text-xs font-normal text-morandi-sage block sm:inline sm:ml-2">RELATIONSHIP</span>
@@ -465,7 +473,7 @@
                     </select>
                 </div>
 
-                <!-- 兒童椅需求 (背後會自動轉換為是/否) -->
+                <!-- 兒童椅需求 -->
                 <div>
                     <label class="block font-serifTC text-xs tracking-wider text-morandi-dark font-semibold mb-2">
                         是否需要兒童椅 <span class="font-garamond text-xs font-normal text-morandi-sage block sm:inline sm:ml-2">CHILD SEAT</span>
@@ -743,11 +751,13 @@
 
         // 網頁完全載入後，優化手風琴預設高度並動態監聽隱藏的 Iframe
         window.onload = function() {
-            // 解決手機瀏覽器自動回復上一次滾動位置或自動聚焦輸入框的問題，強制置頂至封面照片
-            if ('scrollRestoration' in history) {
-                history.scrollRestoration = 'manual';
-            }
-            window.scrollTo(0, 0);
+            // 雙重保險強制置頂：以 instant 方式在頁面載入完畢瞬間置頂
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+            // 確保置頂完成後，再優雅地加上平滑滾動樣式
+            setTimeout(() => {
+                document.documentElement.classList.add('scroll-smooth');
+            }, 100);
 
             const allContent = document.querySelectorAll('.accordion-content');
             allContent.forEach(item => item.style.maxHeight = null);
